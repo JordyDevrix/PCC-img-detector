@@ -1,0 +1,6 @@
+services:
+  api:
+    build: .
+    ports:
+      - "3032:3032"
+    restart: unless-stopped
