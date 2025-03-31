@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classification API Documentation</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        .code-block {
+            background: var(--dark);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+        }
+
+        .endpoint {
+            font-weight: 600;
+        }
+
+        .tab-group {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .response-item {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+
+        .response-key {
+            width: 150px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .response-value {
+            flex: 1;
+            color: var(--gray);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: var(--success);
+        }
+
+        .badge-error {
+            background: #fee2e2;
+            color: var(--error);
+        }
+
+        .file-types {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .file-type {
+            padding: 0.5rem 1rem;
+            background: #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .try-it {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .try-it:hover {
+            background: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">IC</div>
+                <span>ImageClassify API</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="card">
+                <h1>Image Classification API</h1>
+                <p>Our API allows you to classify images and get predictions with confidence scores. Simply upload an image and receive instant analysis.</p>
+
+                <h2>Endpoint</h2>
+                <div class="code-block">
+                    <span class="method">POST</span>
+                    <span class="endpoint">/check</span>
+                </div>
+
+                <h2>Request</h2>
+                <p>Send a POST request with form-data containing your image file.</p>
+
+                <div class="file-types">
+                    <div class="file-type">PNG</div>
+                    <div class="file-type">JPG</div>
+                    <div class="file-type">JPEG</div>
+                    <div class="file-type">GIF</div>
+                </div>
+
+                <div class="tab-group">
+                    <div class="tab active">cURL</div>
+                </div>
+
+                <div class="code-block">
+                    curl --location --request POST 'https://api.example.com/check' \
+                    --form 'file=@"path/to/your/image.jpg"'
+                </div>
+
+                <h2>Response</h2>
+                <p>Successful requests will return a 200 status code with prediction data:</p>
+
+                <div class="code-block">
+                    {"message":"File analysed successfully","output":{"confidence":1.0,"prediction":"real"}}
+                </div>
+
+                <div class="response-item">
+                    <div class="response-key">prediction</div>
+                    <div class="response-value">"game" or "real"</div>
+                </div>
+                <div class="response-item">
+                    <div class="response-key">confidence</div>
+                    <div class="response-value">confidence score (0-1)</div>
+                </div>
+
+                <h2>Status Codes</h2>
+                <div class="response-item">
+                    <div class="response-key"><span class="badge badge-success">200</span></div>
+                    <div class="response-value">Success - Image processed successfully</div>
+                </div>
+                <div class="response-item">
+                    <div class="response-key"><span class="badge badge-error">400</span></div>
+                    <div class="response-value">Bad Request - Invalid file or no file provided</div>
+                </div>
+                <div class="response-item">
+                    <div class="response-key"><span class="badge badge-error">415</span></div>
+                    <div class="response-value">Unsupported Media Type - File format not supported</div>
+                </div>
+                <div class="response-item">
+                    <div class="response-key"><span class="badge badge-error">500</span></div>
+                    <div class="response-value">Internal Server Error - Something went wrong on our end</div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

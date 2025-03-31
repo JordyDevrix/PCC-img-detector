@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from keras.models import load_model  # TensorFlow is required for Keras to work
 from PIL import Image, ImageOps  # Install pillow instead of PIL
 import numpy as np
@@ -13,6 +13,7 @@ model = load_model(f"{model_name}/keras_model.h5", compile=False)
 class_names = open(f"{model_name}/labels.txt", "r").readlines()
 np.set_printoptions(suppress=True)
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -51,8 +52,7 @@ def hello():
 
 @app.route('/help')
 def helproute():
-    return ("Make a POST request to '/check' and make sure that you add a form-data body with 'file' as key and your "
-            "image as your value")
+    return render_template("helppage.html")
 
 
 @app.route('/check', methods=['POST'])
@@ -83,7 +83,7 @@ def check():
             }
         }), 200
     else:
-        return jsonify({'error': 'File type not allowed'}), 400
+        return jsonify({'error': 'File type not supported'}), 415
 
 
 if __name__ == '__main__':
