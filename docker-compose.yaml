@@ -1,6 +1,9 @@
 services:
   api:
-    build: .
+    build:
+      context: .
+      no_cache: true
     ports:
       - "3032:3032"
     restart: unless-stopped
+

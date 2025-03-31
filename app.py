@@ -51,7 +51,7 @@ def hello():
 
 @app.route('/help')
 def helproute():
-    return ("Make a POST request to '/check' and make sure the you add a form-data body with 'file' as key and your "
+    return ("Make a POST request to '/check' and make sure that you add a form-data body with 'file' as key and your "
             "image as your value")
 
 
@@ -79,7 +79,7 @@ def check():
             'message': 'File analysed successfully',
             'output': {
                 'prediction': f'{result[2]}',
-                'confidence': f'{result[1]}'
+                'confidence': float(result[1])
             }
         }), 200
     else:
