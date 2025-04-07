@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-model_name = "realfake2"
+model_name = "converted_keras_2"
 model = load_model(f"{model_name}/keras_model.h5", compile=False)
 class_names = open(f"{model_name}/labels.txt", "r").readlines()
 np.set_printoptions(suppress=True)
