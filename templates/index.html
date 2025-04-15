@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classification Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --gray: #636e72;
+            --light-gray: #dfe6e9;
+            --success: #00b894;
+            --error: #d63031;
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Dark mode variables */
+        [data-theme="dark"] {
+            --primary: #7c6ef6;
+            --primary-dark: #6a5ceb;
+            --dark: #f5f6fa;
+            --light: #2d3436;
+            --gray: #b2bec3;
+            --light-gray: #3e4a56;
+            --success: #55efc4;
+            --error: #ff7675;
+            --card-bg: rgba(45, 52, 54, 0.96);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #2d3436 0%, #1e272e 100%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-text {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            color: var(--dark);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .theme-toggle i {
+            font-size: 1.25rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        p {
+            margin-bottom: 2rem;
+            color: var(--gray);
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .form-container {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-column {
+            flex: 1;
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border: 2px dashed var(--light-gray);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            height: 100%;
+            justify-content: center;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.05);
+        }
+
+        .file-upload.dragover {
+            background: rgba(108, 92, 231, 0.1);
+            border-color: var(--primary);
+        }
+
+        .file-upload i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .file-upload p {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .file-upload small {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        #fileName {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+            display: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn:disabled {
+            background: var(--light-gray);
+            color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .result-container {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .confidence {
+            color: var(--success);
+        }
+
+        .spinner {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: var(--error);
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .image-preview-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            display: none;
+        }
+
+        .preview-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .preview-placeholder i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+
+            .card {
+                padding: 1.75rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .form-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .image-preview-container {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">PCC</div>
+                <div class="logo-text">ImageClassify API</div>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
+
+        <div class="card">
+            <h1>Image Classification Tool</h1>
+            <p>Upload an image to analyze its content and get prediction results</p>
+
+            <form id="imageForm">
+                <div class="form-container">
+                    <div class="form-column">
+                        <div class="file-upload" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop an image or click to browse</p>
+                            <small>Supports JPG, PNG (Max 5MB)</small>
+                            <input type="file" id="fileInput" accept=".jpg,.jpeg,.png">
+                            <div id="fileName"></div>
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="image-preview-container">
+                            <div class="preview-placeholder" id="previewPlaceholder">
+                                <i class="fas fa-image"></i>
+                                <p>Image preview will appear here</p>
+                            </div>
+                            <img id="imagePreview" class="image-preview" alt="Preview">
+                            <button type="button" class="remove-image" id="removeImage">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-message" id="fileError"></div>
+
+                <button type="submit" class="btn" id="submitBtn" disabled>
+                    <span id="btnText">Analyze Image</span>
+                    <div class="spinner" id="spinner"></div>
+                </button>
+            </form>
+
+            <div class="result-container" id="resultContainer">
+                <div class="result-card">
+                    <h3 class="result-title">
+                        <i class="fas fa-chart-bar"></i> Analysis Results
+                    </h3>
+                    <div class="result-content" id="resultContent">
+                        <!-- Results will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const html = document.documentElement;
+
+            // Check for saved theme preference or use preferred color scheme
+            const savedTheme = localStorage.getItem('theme') ||
+                               (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+            // Apply the saved theme
+            if (savedTheme === 'dark') {
+                html.setAttribute('data-theme', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+
+            // Theme toggle click handler
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = html.getAttribute('data-theme');
+                if (currentTheme === 'dark') {
+                    html.removeAttribute('data-theme');
+                    themeIcon.classList.replace('fa-sun', 'fa-moon');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    html.setAttribute('data-theme', 'dark');
+                    themeIcon.classList.replace('fa-moon', 'fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+
+            // File upload functionality
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const fileName = document.getElementById('fileName');
+            const submitBtn = document.getElementById('submitBtn');
+            const imageForm = document.getElementById('imageForm');
+            const resultContainer = document.getElementById('resultContainer');
+            const resultContent = document.getElementById('resultContent');
+            const fileError = document.getElementById('fileError');
+            const btnText = document.getElementById('btnText');
+            const spinner = document.getElementById('spinner');
+            const imagePreview = document.getElementById('imagePreview');
+            const previewPlaceholder = document.getElementById('previewPlaceholder');
+            const removeImage = document.getElementById('removeImage');
+
+            // Handle drag and drop events
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                uploadArea.classList.add('dragover');
+            }
+
+            function unhighlight() {
+                uploadArea.classList.remove('dragover');
+            }
+
+            // Handle dropped files
+            uploadArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+
+                if (files.length) {
+                    fileInput.files = files;
+                    handleFiles(files);
+                }
+            }
+
+            // Handle file selection via click
+            uploadArea.addEventListener('click', () => fileInput.click());
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleFiles(e.target.files);
+                }
+            });
+
+            // Handle file processing
+            function handleFiles(files) {
+                const file = files[0];
+
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                if (!validTypes.includes(file.type)) {
+                    fileError.textContent = 'Please upload a JPG or PNG image';
+                    fileError.style.display = 'block';
+                    submitBtn.disabled = true;
+                    resetPreview();
+                    return;
+                }
+
+                // Validate file size (5MB max)
+                if (file.size > 5 * 1024 * 1024) {
+                    fileError.textContent = 'File size must be less than 5MB';
+                    fileError.style.display = 'block';
+                    submitBtn.disabled = true;
+                    resetPreview();
+                    return;
+                }
+
+                // Valid file
+                fileError.style.display = 'none';
+                fileName.textContent = `Selected: ${file.name}`;
+                fileName.style.display = 'block';
+                submitBtn.disabled = false;
+
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    previewPlaceholder.style.display = 'none';
+                    imagePreview.style.display = 'block';
+                    removeImage.style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // Remove image
+            removeImage.addEventListener('click', function(e) {
+                e.stopPropagation();
+                resetPreview();
+                fileInput.value = '';
+                submitBtn.disabled = true;
+                fileError.style.display = 'none';
+            });
+
+            function resetPreview() {
+                previewPlaceholder.style.display = 'flex';
+                imagePreview.style.display = 'none';
+                imagePreview.src = '';
+                fileName.style.display = 'none';
+                removeImage.style.display = 'none';
+            }
+
+            // Handle form submission
+            imageForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const file = fileInput.files[0];
+                if (!file) {
+                    fileError.textContent = 'Please select an image first';
+                    fileError.style.display = 'block';
+                    return;
+                }
+
+                // Show loading state
+                btnText.textContent = 'Analyzing...';
+                spinner.style.display = 'block';
+                submitBtn.disabled = true;
+                resultContainer.style.display = 'none';
+
+                try {
+                    const formData = new FormData();
+                    formData.append('file', file);
+
+                    const response = await fetch('http://localhost:3032/check', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Display results
+                        resultContent.innerHTML = `
+                            <div class="result-item">
+                                <span class="result-label">Prediction:</span>
+                                <span class="result-value">${data.output.prediction === "real" ? "in-game" : "not in-game"}</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Confidence:</span>
+                                <span class="result-value confidence">${(data.output.confidence * 100).toFixed(2)}%</span>
+                            </div>
+                        `;
+                        resultContainer.style.display = 'block';
+                    } else {
+                        throw new Error(data.message || 'Analysis failed');
+                    }
+                } catch (error) {
+                    fileError.textContent = error.message;
+                    fileError.style.display = 'block';
+                } finally {
+                    // Reset button state
+                    btnText.textContent = 'Analyze Image';
+                    spinner.style.display = 'none';
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 from keras.models import load_model  # TensorFlow is required for Keras to work
 from PIL import Image, ImageOps  # Install pillow instead of PIL
 import numpy as np
 from io import BytesIO
 
 app = Flask(__name__)
+CORS(app)
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -47,7 +49,7 @@ def predict(image_bytes):
 
 @app.route('/')
 def hello():
-    return "Send me an image and I'll predict if it's PCC or real life :D"
+    return render_template("index.html")
 
 
 @app.route('/help')
