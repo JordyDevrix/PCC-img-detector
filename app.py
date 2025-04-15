@@ -57,6 +57,11 @@ def helproute():
     return render_template("helppage.html")
 
 
+@app.route('/disclaimer')
+def disclaimer():
+    return render_template("disclaimer.html")
+
+
 @app.route('/check', methods=['POST'])
 def check():
     print(request.data)
