@@ -62,6 +62,11 @@ def disclaimer():
     return render_template("disclaimer.html")
 
 
+@app.route('/privacy')
+def privacy():
+    return render_template("privacy.html")
+
+
 @app.route('/check', methods=['POST'])
 def check():
     print(request.data)

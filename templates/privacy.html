@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Image Classification Tool</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --text: #2d3436;
+            --light-bg: #f8f9fa;
+            --border: #dfe6e9;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f5f6fa;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .last-updated {
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .policy-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            font-size: 1.3rem;
+        }
+
+        ul {
+            padding-left: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+        }
+
+        .contact {
+            font-style: italic;
+            margin-top: 2rem;
+            text-align: center;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 8px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1.5rem;
+            }
+
+            .policy-section {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Privacy Policy</h1>
+        <div class="last-updated">Last Updated: <span id="currentDate"></span></div>
+    </header>
+
+    <main>
+        <div class="policy-section">
+            <h2>1. Data Collection and Usage</h2>
+            <p>This Image Classification Tool processes your uploaded images solely to provide you with analysis results. We do not:</p>
+            <ul>
+                <li>Store your images after processing is complete</li>
+                <li>Collect or retain any personal information</li>
+                <li>Use your data for any purpose other than generating your requested analysis</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h2>2. Data Retention</h2>
+            <p>All uploaded images are:</p>
+            <ul>
+                <li>Processed in real-time</li>
+                <li>Automatically deleted immediately after analysis</li>
+                <li>Not stored on our servers or databases</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h2>3. Third-Party Sharing</h2>
+            <p>We guarantee:</p>
+            <ul>
+                <li>No sharing of your images or data with third parties</li>
+                <li>No selling or monetization of user data</li>
+                <li>No use of your data for advertising or marketing</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h2>4. Data Security</h2>
+            <p>While we implement reasonable security measures:</p>
+            <ul>
+                <li>Internet transmissions cannot be guaranteed 100% secure</li>
+                <li>You upload files at your own risk</li>
+                <li>We recommend not uploading sensitive or confidential images</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h2>5. Cookies and Tracking</h2>
+            <p>This tool:</p>
+            <ul>
+                <li>Does not use tracking cookies</li>
+                <li>Does not employ any user analytics</li>
+                <li>May use essential session cookies for functionality</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h2>6. Changes to This Policy</h2>
+            <p>We may update this policy and will post changes here. Continued use constitutes acceptance.</p>
+        </div>
+
+        <div class="contact">
+            <h2>7. Contact</h2>
+            <p>For questions about this policy:<br>
+            <strong><a style="color: #6a5ceb" href=mailto:"contact@jordydevrix.com">contact@jordydevrix.com</a></strong></p>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="javascript:history.back()" class="back-btn">Back to Website</a>
+        </div>
+    </main>
+
+    <script>
+        // Set current date automatically
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    </script>
+</body>
+</html>

@@ -400,6 +400,26 @@
             text-decoration: none;
             color: var(--primary);
         }
+        a:hover {
+            color: var(--gray);
+        }
+
+        footer {
+            width: 100%;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-around;
+
+            & ul {
+                list-style: none;
+
+                & p {
+                    text-align: left;
+                    margin-bottom: 0;
+                    margin-top: 10px;
+                }
+            }
+        }
 
     </style>
 </head>
@@ -468,13 +488,50 @@
                     <a href="https://pcc.jordydevrix.com/help">pcc.jordydevrix.com/help</a>
                 </strong>
             </p>
-            <p>
-                <strong>
-                    <a href="https://pcc.jordydevrix.com/disclaimer">pcc.jordydevrix.com/disclaimer</a>
-                </strong>
-            </p>
         </div>
     </div>
+    <footer>
+        <ul>
+            <li>
+                <p class="foottext">
+                    <strong>
+                        <a href="https://pcc.jordydevrix.com/disclaimer">disclaimer</a>
+                    </strong>
+                </p>
+            </li>
+            <li>
+                <p class="foottext">
+                    <strong>
+                        <a href="https://pcc.jordydevrix.com/privacy">privacy & terms</a>
+                    </strong>
+                </p>
+            </li>
+            <li>
+                <p class="foottext">
+                    <strong>
+                        <a href="https://pcc.jordydevrix.com/help">help</a>
+                    </strong>
+                </p>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <p class="foottext">
+                    <strong>
+                        <a href="https://github.com/JordyDevrix/PCC-img-detector">github</a>
+                    </strong>
+                </p>
+            </li>
+            <li>
+                <p class="foottext">
+                    <strong>
+                        <a href="https://buymeacoffee.com/JordyDevrix">buy me a coffee</a>
+                    </strong>
+                </p>
+            </li>
+        </ul>
+
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
