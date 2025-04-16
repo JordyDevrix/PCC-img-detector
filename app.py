@@ -10,7 +10,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-model_name = "converted_keras_2"
+model_name = "realfake3"
 model = load_model(f"{model_name}/keras_model.h5", compile=False)
 class_names = open(f"{model_name}/labels.txt", "r").readlines()
 np.set_printoptions(suppress=True)
