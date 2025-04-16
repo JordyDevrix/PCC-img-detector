@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from keras.models import load_model  # TensorFlow is required for Keras to work
-from PIL import Image, ImageOps  # Install pillow instead of PIL
+from keras.models import load_model
+from PIL import Image, ImageOps
 import numpy as np
 from io import BytesIO
 
@@ -89,6 +89,7 @@ def check():
         # Return a success message with the file path
         return jsonify({
             'message': 'File analysed successfully',
+            'filename': f'{file.filename}',
             'output': {
                 'prediction': f'{result[2]}',
                 'confidence': float(result[1])
